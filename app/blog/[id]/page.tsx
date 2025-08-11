@@ -3,12 +3,10 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import BlogPostClient from './BlogPostClient';
 
-// Define props type for Next.js App Router
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
-// Pre-generate static params for SSG
 export async function generateStaticParams() {
   return [
     { id: '1' },
@@ -20,8 +18,8 @@ export async function generateStaticParams() {
   ];
 }
 
-export default async function BlogPost({ params }: PageProps) {
-  const { id } = await params;
+export default function BlogPost({ params }: PageProps) {
+  const { id } = params;
 
   const blogPosts: Record<string, any> = {
     '1': {
@@ -94,9 +92,7 @@ export default async function BlogPost({ params }: PageProps) {
         <Header />
         <div className="max-w-4xl mx-auto px-6 py-20 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Post Not Found</h1>
-          <p className="text-xl text-gray-600 mb-8">
-            The blog post you're looking for doesn't exist.
-          </p>
+          <p className="text-xl text-gray-600 mb-8">The blog post you're looking for doesn't exist.</p>
           <Link
             href="/blog"
             className="bg-amber-600 text-white px-6 py-3 rounded-full hover:bg-amber-700 transition-all duration-300"
