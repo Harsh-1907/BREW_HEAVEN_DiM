@@ -1,14 +1,12 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import BlogPostClient from './BlogPostClient';
 
-// Ensure params type matches what Next.js expects
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -22,16 +20,15 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function BlogPost({ params }: PageProps) {
+export default async function BlogPost({ params }: PageProps) {
+  const { id } = await params;
+
   const blogPosts: Record<string, any> = {
     '1': {
       id: 1,
       title: "The Art of Pour-Over: Mastering Manual Brewing",
-      content: `
-        <p>Pour-over coffee represents the pinnacle of manual brewing craftsmanship...</p>
-        <!-- (Content unchanged for brevity) -->
-      `,
-      image: "https://readdy.ai/api/search-image?query=Step%20by%20step%20pour%20over%20coffee%20brewing%20process%2C%20V60%20dripper...",
+      content: `<p>Pour-over coffee represents the pinnacle of manual brewing craftsmanship...</p>`,
+      image: "https://readdy.ai/api/search-image?query=Step%20by%20step%20pour%20over%20coffee%20brewing...",
       date: "March 15, 2024",
       readTime: "5 min read",
       category: "Brewing Tips",
@@ -40,9 +37,7 @@ export default function BlogPost({ params }: PageProps) {
     '2': {
       id: 2,
       title: "From Farm to Cup: Our Ethiopian Coffee Journey",
-      content: `
-        <p>Our recent expedition to the highlands of Ethiopia...</p>
-      `,
+      content: `<p>Our recent expedition to the highlands of Ethiopia...</p>`,
       image: "https://readdy.ai/api/search-image?query=Ethiopian%20coffee%20farmers...",
       date: "March 10, 2024",
       readTime: "8 min read",
@@ -52,9 +47,7 @@ export default function BlogPost({ params }: PageProps) {
     '3': {
       id: 3,
       title: "Latte Art Fundamentals: Creating Beautiful Designs",
-      content: `
-        <p>Latte art transforms a simple cup of coffee...</p>
-      `,
+      content: `<p>Latte art transforms a simple cup of coffee...</p>`,
       image: "https://readdy.ai/api/search-image?query=Barista%20hands%20creating%20intricate...",
       date: "March 5, 2024",
       readTime: "6 min read",
@@ -64,9 +57,7 @@ export default function BlogPost({ params }: PageProps) {
     '4': {
       id: 4,
       title: "Sustainable Coffee: Our Environmental Commitment",
-      content: `
-        <p>At Brew Haven, sustainability isn't just a buzzword...</p>
-      `,
+      content: `<p>At Brew Haven, sustainability isn't just a buzzword...</p>`,
       image: "https://readdy.ai/api/search-image?query=Sustainable%20coffee%20shop...",
       date: "February 28, 2024",
       readTime: "7 min read",
@@ -76,9 +67,7 @@ export default function BlogPost({ params }: PageProps) {
     '5': {
       id: 5,
       title: "Cold Brew vs. Iced Coffee: What's the Difference?",
-      content: `
-        <p>Many coffee lovers use the terms "cold brew" and "iced coffee" interchangeably...</p>
-      `,
+      content: `<p>Many coffee lovers use the terms "cold brew" and "iced coffee" interchangeably...</p>`,
       image: "https://readdy.ai/api/search-image?query=Side%20by%20side%20comparison...",
       date: "February 22, 2024",
       readTime: "4 min read",
@@ -88,9 +77,7 @@ export default function BlogPost({ params }: PageProps) {
     '6': {
       id: 6,
       title: "Community Coffee Cupping: Tasting Notes Workshop",
-      content: `
-        <p>Our monthly coffee cupping sessions have become a beloved community tradition...</p>
-      `,
+      content: `<p>Our monthly coffee cupping sessions have become a beloved community tradition...</p>`,
       image: "https://readdy.ai/api/search-image?query=Professional%20coffee%20cupping...",
       date: "February 18, 2024",
       readTime: "3 min read",
@@ -99,7 +86,7 @@ export default function BlogPost({ params }: PageProps) {
     }
   };
 
-  const post = blogPosts[params.id];
+  const post = blogPosts[id];
 
   if (!post) {
     return (
